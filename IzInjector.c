@@ -4,7 +4,7 @@
 
 DWORD getProcess(wchar_t *processName)
 {
-	HANDLE hPID = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+	HANDLE hPID = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	PROCESSENTRY32 ProcEntry;
 	ProcEntry.dwSize = sizeof(ProcEntry);
 
