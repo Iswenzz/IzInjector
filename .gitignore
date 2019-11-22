@@ -8,3 +8,9 @@ Debug/
 x64/Release/
 
 *.gcda
+
+COVERAGE.sh
+
+opencppcoverageCoverage.xml
+
+LastCoverageResults.log
