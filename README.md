@@ -5,6 +5,20 @@
 
 This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this application is intended for educational purposes only, and I do not condone its use for cheating of any kind.
 
+## Command Line Interface
 ```
 IzInjector.exe <processName> <dllPath>
 ```
+
+## Building (Windows)
+_Pre-Requisites:_
+1. [MinGW](http://www.mingw.org/)
+
+_Build Command:_
+
+    gcc *.c -o IzInjector.exe
+    
+### [Download](https://github.com/Iswenzz/IzInjector/releases)
+
+## Contributors:
+***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.
