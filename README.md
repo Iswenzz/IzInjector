@@ -3,14 +3,17 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/iswenzz/izinjector/badge)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this application is intended for educational purposes only, and I do not condone its use for cheating of any kind.
+This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this is meant to be used for educational purposes only, and I do not condone its use for cheating of any kind.
 
 ## Command Line Interface
 ```
 IzInjector.exe <processName> <dllPath>
 ```
 
-## Building (Windows)
+## Building (VCXProj)
+1. [Visual Studio](https://visualstudio.microsoft.com/)
+
+## Building (Windows GCC)
 _Pre-Requisites:_
 1. [MinGW](http://www.mingw.org/)
 
