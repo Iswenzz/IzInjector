@@ -13,7 +13,7 @@ IzInjector.exe <processName> <dllPath>
 ## Building (VCXProj)
 1. [Visual Studio](https://visualstudio.microsoft.com/)
 
-## Building (Windows GCC)
+## Building (MinGW)
 _Pre-Requisites:_
 1. [MinGW](http://www.mingw.org/)
 
