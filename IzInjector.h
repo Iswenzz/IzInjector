@@ -11,6 +11,14 @@ DWORD getProcessByName(wchar_t *processName);
 /// Inject the specified DLL to a target process.
 /// </summary>
 /// <param name="processName">The process name.</param>
-/// <param name="dllpath">The dll path.</param>
+/// <param name="dllpath">The DLL path.</param>
 /// <returns>Injection return code.</returns>
 HRESULT inject(wchar_t *processName, wchar_t *dllpath);
+
+/// <summary>
+/// Eject a specific DLL from the target process.
+/// </summary>
+/// <param name="processName">The process name.</param>
+/// <param name="dllpath">The DLL path.</param>
+/// <returns>Ejection return code.</returns>
+HRESULT eject(wchar_t* processName, wchar_t* dllpath);
