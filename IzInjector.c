@@ -2,23 +2,25 @@
 #include <stdio.h>
 #include <TlHelp32.h>
 
-DWORD getProcess(wchar_t *processName)
+DWORD getProcessByName(wchar_t *processName)
 {
 	HANDLE hPID = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	PROCESSENTRY32 ProcEntry;
 	ProcEntry.dwSize = sizeof(ProcEntry);
+	DWORD foundPID = -1;
 
 	do
 	{
 		if (!wcscmp(ProcEntry.szExeFile, processName))
 		{
-			DWORD dwPID = ProcEntry.th32ProcessID;
-			CloseHandle(hPID);
-			return dwPID;
+			foundPID = ProcEntry.th32ProcessID;
+			break;
 		}
 	} 
 	while (Process32Next(hPID, &ProcEntry));
-	return 0;
+
+	CloseHandle(hPID);
+	return foundPID;
 }
 
 HRESULT inject(wchar_t *processName, wchar_t *dllpath)
@@ -27,7 +29,7 @@ HRESULT inject(wchar_t *processName, wchar_t *dllpath)
 	if (dwAttrib == INVALID_FILE_ATTRIBUTES || dwAttrib & FILE_ATTRIBUTE_DIRECTORY)
 		return GetLastError();
 
-	DWORD procID = getProcess(processName);
+	DWORD procID = getProcessByName(processName);
 	if (!procID)
 		return GetLastError();
 
