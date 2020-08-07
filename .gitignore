@@ -1,16 +1,13 @@
-
+.vscode/
 Debug/
+Release/
+x64/Release/
+build/
 
 *.gcov
-
 *.gcno
-
-x64/Release/
-
 *.gcda
 
 COVERAGE.sh
-
 opencppcoverageCoverage.xml
-
 LastCoverageResults.log
