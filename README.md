@@ -10,9 +10,6 @@ This application is intended to allow users to inject a Dynamic-Link Library (DL
 IzInjector.exe <processName> <dllPath>
 ```
 
-## Building (VCXProj)
-1. [Visual Studio](https://visualstudio.microsoft.com/)
-
 ## Building
 This project can be built with [MinGW](http://www.mingw.org/) or [Visual Studio](https://visualstudio.microsoft.com/) or [CMake](https://cmake.org/).
 
