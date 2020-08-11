@@ -8,6 +8,9 @@ add_executable(IzInjector
 	main.c
 	IzInjector.c)
 
+target_link_directories(IzInjector PUBLIC deps/argparse/x86)
+target_link_libraries(IzInjector argparse.lib)
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
