@@ -1,4 +1,4 @@
-#include "deps/argparse/argparse.h"
+#include <argparse.h>
 #include <stdio.h>
 
 static const char *const usage[] = {

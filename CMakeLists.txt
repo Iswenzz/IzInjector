@@ -14,12 +14,16 @@ add_executable(IzInjector
 	main.c
 	IzInjector.c)
 
-# IzInjector link directories
+# IzInjector library directories
 target_link_directories(IzInjector PUBLIC
-	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x64">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/x64>
-	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x86">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/x86>)
+	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x64">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/lib/x64>
+	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x86">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/lib/x86>)
 
-# IzInjector link libraries
-target_link_libraries(IzInjector
+# IzInjector dependencies
+target_link_libraries(IzInjector PUBLIC
 	$<$<LINK_LANG_AND_ID:C,MSVC>:libargparse.lib>
 	$<$<LINK_LANG_AND_ID:C,GNU,Clang>:libargparse.a>)
+
+# IzInjector include directories
+target_include_directories(IzInjector PUBLIC
+	${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/include)
