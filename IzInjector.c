@@ -97,8 +97,8 @@ HRESULT eject(wchar_t* processName, wchar_t* dllpath)
 	THROW(!hndProc, GetLastError());
 
 	// Create a remote thread to terminate the module
-	HANDLE thread = CreateRemoteThread(hndProc, NULL, 0, (PTHREAD_START_ROUTINE)FreeLibrary,
-		ModEntry.modBaseAddr, 0, NULL);
+	HANDLE thread = CreateRemoteThread(hndProc, 0, 0, (LPTHREAD_START_ROUTINE)FreeLibrary, 
+		ModEntry.modBaseAddr, 0, 0);
 	THROW(thread == NULL, GetLastError());
 	FreeHandle(hndProc);
 
