@@ -29,4 +29,11 @@ if(SELECT_ARCHITECTURE MATCHES "x86")
 	set(CMAKE_C_FLAGS "-m32")
 endif()
 
-target_link_libraries(IzInjector libargparse.a)
+# MSVC Compilers
+if(MSVC)
+	set(LIBRARIES "libargparse.lib")
+else()
+	set(LIBRARIES "libargparse.a")
+endif()
+
+target_link_libraries(IzInjector ${LIBRARIES})

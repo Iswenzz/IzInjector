@@ -17,7 +17,7 @@ main(int argc, const char **argv)
     int force = 0;
     int test = 0;
     int num = 0;
-    const char *path = NULL;
+    char *path = NULL;
     int perms = 0;
     struct argparse_option options[] = {
         OPT_HELP(),
