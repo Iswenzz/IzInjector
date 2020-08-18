@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(IzInjector VERSION 0.1.0)
 
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+
 # Select architecture target
-set(SELECT_ARCHITECTURE "" CACHE STRING "Select the target architecture.")
+set(SELECT_ARCHITECTURE "x64" CACHE STRING "Select the target architecture.")
 set_property(CACHE SELECT_ARCHITECTURE PROPERTY STRINGS x64 x86)
 
 # IzInjector
@@ -10,30 +14,12 @@ add_executable(IzInjector
 	main.c
 	IzInjector.c)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+# IzInjector link directories
+target_link_directories(IzInjector PUBLIC
+	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x64">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/x64>
+	$<$<STREQUAL:"${SELECT_ARCHITECTURE}","x86">:${CMAKE_CURRENT_SOURCE_DIR}/deps/argparse/x86>)
 
-# 64 bits options (default)
-if(SELECT_ARCHITECTURE MATCHES "x64" OR NOT SELECT_ARCHITECTURE)
-	message("Selected x64 target.")
-	target_link_directories(IzInjector 
-		PUBLIC deps/argparse/x64)
-endif()
-
-# 32 bits options
-if(SELECT_ARCHITECTURE MATCHES "x86")
-	message("Selected x86 target.")
-	target_link_directories(IzInjector 
-		PUBLIC deps/argparse/x86)
-	set(CMAKE_C_FLAGS "-m32")
-endif()
-
-# MSVC Compilers
-if(MSVC)
-	set(LIBRARIES "libargparse.lib")
-else()
-	set(LIBRARIES "libargparse.a")
-endif()
-
-target_link_libraries(IzInjector ${LIBRARIES})
+# IzInjector link libraries
+target_link_libraries(IzInjector
+	$<$<LINK_LANG_AND_ID:C,MSVC>:libargparse.lib>
+	$<$<LINK_LANG_AND_ID:C,GNU,Clang>:libargparse.a>)
