@@ -1,84 +1,63 @@
-#include <argparse.h>
+#include "IzInjector.h"
 #include <stdio.h>
+#include <argparse.h>
 
-static const char *const usage[] = {
-    "test_argparse [options] [[--] args]",
-    "test_argparse [options]",
-    NULL,
+typedef enum
+{
+	METHOD_INJECT = 1,
+	METHOD_EJECT = 2,
+} ProcessMethod;
+
+static const char *usage[] = {
+	"IzInjector <commands> [[--] args] <dlls>",
+	NULL
 };
 
-#define PERM_READ  (1<<0)
-#define PERM_WRITE (1<<1)
-#define PERM_EXEC  (1<<2)
-
-int
-main(int argc, const char **argv)
+/// <summary>
+/// Entry point of the program.
+/// </summary>
+/// <param name="argc">CLI arg count.</param>
+/// <param name="argv">CLI arg strings.</param>
+/// <returns>Injection return code.</returns>
+int main(int argc, const char **argv)
 {
-    int force = 0;
-    int test = 0;
-    int num = 0;
-    char *path = NULL;
-    int perms = 0;
-    struct argparse_option options[] = {
-        OPT_HELP(),
-        OPT_GROUP("Basic options"),
-        OPT_BOOLEAN('f', "force", &force, "force to do"),
-        OPT_BOOLEAN('t', "test", &test, "test only"),
-        OPT_STRING('p', "path", &path, "path to read"),
-        OPT_INTEGER('n', "num", &num, "selected num"),
-        OPT_GROUP("Bits options"),
-        OPT_BIT(0, "read", &perms, "read perm", NULL, PERM_READ, OPT_NONEG),
-        OPT_BIT(0, "write", &perms, "write perm", NULL, PERM_WRITE),
-        OPT_BIT(0, "exec", &perms, "exec perm", NULL, PERM_EXEC),
-        OPT_END(),
-    };
+	int pid = -1, verbose = 0;
+	char *name = NULL;
+	ProcessMethod method = 0;
 
-    struct argparse argparse;
-    argparse_init(&argparse, options, usage, 0);
-    argparse_describe(&argparse, "\nA brief description of what the program does and how it works.", "\nAdditional description of the program after the description of the arguments.");
-    argc = argparse_parse(&argparse, argc, argv);
-    if (force != 0)
-        printf("force: %d\n", force);
-    if (test != 0)
-        printf("test: %d\n", test);
-    if (path != NULL)
-        printf("path: %s\n", path);
-    if (num != 0)
-        printf("num: %d\n", num);
-    if (argc != 0) {
-        printf("argc: %d\n", argc);
-        int i;
-        for (i = 0; i < argc; i++) {
-            printf("argv[%d]: %s\n", i, *(argv + i));
-        }
-    }
-    if (perms) {
-        printf("perms: %d\n", perms);
-    }
-    return 0;
+	struct argparse_option options[] = {
+		OPT_HELP(),
+		OPT_GROUP("IzInjector commands"),
+		OPT_BIT(0, "inject", &method, "DLL Injection mode", NULL, METHOD_INJECT),
+		OPT_BIT(0, "eject", &method, "DLL Ejection mode", NULL, METHOD_EJECT),
+		OPT_GROUP("IzInjector options"),
+		OPT_STRING('n', "name", &name, "The target process name"),
+		OPT_INTEGER('p', "pid", &pid, "The target process ID"),
+		OPT_BOOLEAN('v', "verbose", &verbose, "Log the method process."),
+		OPT_END(),
+	};
+
+	struct argparse argparse;
+	argparse_init(&argparse, options, usage, 0);
+	argparse_describe(&argparse, "\nThis application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory.", NULL);
+
+	argc = argparse_parse(&argparse, argc, argv);
+	if (argc != 0) 
+	{
+		if (pid == -1 && name == NULL)
+		{
+			printf("You must use either --pid or --name option to target a process. Type --help for more informations!");
+			return ERROR_BAD_ARGUMENTS;
+		}
+		switch (method)
+		{
+			case METHOD_INJECT: return inject(name, argv[0]);
+			case METHOD_EJECT: return eject(name, argv[0]);
+
+			default:
+				printf("Wrong command! Type --help for more informations.");
+				return ERROR_BAD_ARGUMENTS;
+		}
+	}
+	return 0;
 }
-
-// #include "IzInjector.h"
-// #include <stdio.h>
-
-// /// <summary>
-// /// Entry point of the program.
-// /// </summary>
-// /// <returns>Injection return code.</returns>
-// int main()
-// {
-// 	LPWSTR *argv = NULL;
-// 	int argc;
-// 	argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-
-// 	if (argv == NULL || argc < 3)
-// 	{
-// 		printf("Usage: IzInjector.exe <processName> <dllPath>\n");
-// 		return ERROR_BAD_ARGUMENTS;
-// 	}
-
-// 	DWORD injectCode = argv ? inject(argv[1], argv[2]) : -1;
-// 	if (injectCode != ERROR_SUCCESS)
-// 		printf("ERROR: %d", injectCode);
-// 	return injectCode;
-// }
