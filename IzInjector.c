@@ -22,7 +22,7 @@ DWORD getProcessByName(wchar_t *processName)
 
 	do
 	{
-		if (!wcscmp(ProcEntry.szExeFile, processName))
+		if (!wcscmp((wchar_t *)ProcEntry.szExeFile, processName))
 		{
 			foundPID = ProcEntry.th32ProcessID;
 			break;
@@ -37,7 +37,7 @@ DWORD getProcessByName(wchar_t *processName)
 HRESULT inject(wchar_t *processName, wchar_t *dllpath)
 {
 	// Check if DLL path is valid
-	DWORD dwAttrib = GetFileAttributes(dllpath);
+	DWORD dwAttrib = GetFileAttributes((LPCSTR)dllpath);
 	THROW(dwAttrib == INVALID_FILE_ATTRIBUTES || dwAttrib & FILE_ATTRIBUTE_DIRECTORY, GetLastError());
 
 	// Get process ID by name
@@ -68,7 +68,7 @@ HRESULT inject(wchar_t *processName, wchar_t *dllpath)
 HRESULT eject(wchar_t* processName, wchar_t* dllpath)
 {
 	// Check if DLL path is valid
-	DWORD dwAttrib = GetFileAttributes(dllpath);
+	DWORD dwAttrib = GetFileAttributes((LPCSTR)dllpath);
 	THROW(dwAttrib == INVALID_FILE_ATTRIBUTES || dwAttrib & FILE_ATTRIBUTE_DIRECTORY, GetLastError());
 
 	// Get process ID by name
