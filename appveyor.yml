@@ -1,0 +1,18 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+
+environment:
+  matrix:
+  - compiler: MinGW 8.1.0
+    generator: '"MinGW Makefiles"'
+    compiler_path: C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
+    
+build_script:
+- ps: >-
+    $env:path += ";$env:compiler_path";
+
+    cmake -B./build -G $env:generator
+
+    cd build
+
+    mingw32-make
