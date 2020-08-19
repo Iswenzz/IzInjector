@@ -4,7 +4,7 @@ image: Visual Studio 2019
 environment:
   matrix:
   - compiler: MinGW 8.1.0
-    generator: '"MinGW Makefiles"'
+    generator: "MinGW Makefiles"
     compiler_path: C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
     
 build_script:
