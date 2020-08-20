@@ -8,6 +8,9 @@ typedef enum
 	METHOD_EJECT = 2,
 } ProcessMethod;
 
+/// <summary>
+/// The CLI usage message.
+/// </summary>
 static const char *usage[] = {
 	"IzInjector <commands> [[--] args] <dlls>",
 	NULL
@@ -42,21 +45,25 @@ int main(int argc, const char **argv)
 	argparse_describe(&argparse, "\nThis application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory.", NULL);
 
 	argc = argparse_parse(&argparse, argc, argv);
-	if (argc != 0) 
+	// CLI Version
+	if (argc != 0)
 	{
 		if (pid == -1 && name == NULL)
 		{
 			printf("You must use either --pid or --name option to target a process. Type --help for more informations!");
 			return ERROR_BAD_ARGUMENTS;
 		}
-		switch (method)
+		for (int i = 0; i < argc; i++)
 		{
-			case METHOD_INJECT: return inject(name, argv[0]);
-			case METHOD_EJECT: return eject(name, argv[0]);
+			switch (method)
+			{
+				case METHOD_INJECT: return inject(name, argv[i], pid, verbose);
+				case METHOD_EJECT: return eject(name, argv[i], pid, verbose);
 
-			default:
-				printf("Wrong command! Type --help for more informations.");
-				return ERROR_BAD_ARGUMENTS;
+				default:
+					printf("Wrong command! Type --help for more informations.");
+					return ERROR_BAD_ARGUMENTS;
+			}
 		}
 	}
 	return 0;
