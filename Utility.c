@@ -1,4 +1,4 @@
-#include "utility.h"
+#include "Utility.h"
 #include <stdio.h>
 
 void SafeFreeHandle(HANDLE handle)

@@ -9,6 +9,12 @@ if (ThrowIf(condition, code, verbose) != ERROR_SUCCESS)	\
 	return code;										\
 
 /// <summary>
+/// Print a message to stdout if verbose flag is set.
+/// </summary>
+#define VPRINTF(...) \
+if (verbose) printf(__VA_ARGS__);
+
+/// <summary>
 /// Safely free a HANDLE.
 /// </summary>
 /// <param name="handle">The HANDLE to free.</param>
