@@ -13,7 +13,9 @@ set_property(CACHE SELECT_ARCHITECTURE PROPERTY STRINGS x64 x86)
 add_executable(IzInjector
 	main.c
 	IzInjector.c
-	Utility.c)
+	IzInjector.h
+	Utility.c
+	Utility.h)
 
 # IzInjector library directories
 target_link_directories(IzInjector PUBLIC
