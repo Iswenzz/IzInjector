@@ -11,3 +11,5 @@ build/
 COVERAGE.sh
 opencppcoverageCoverage.xml
 LastCoverageResults.log
+
+vs/
