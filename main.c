@@ -57,7 +57,8 @@ int main(int argc, const char **argv)
 			return ERROR_BAD_ARGUMENTS;
 		}
 		VPRINTF("\nCommand: %d\n", command);
-		VPRINTF(pid == -1 ? "Name: %s\n" : "PID: %d\n", pid == -1 ? name : pid);
+		if (pid == -1) VPRINTF("Name: %s", name);
+		if (name == NULL) VPRINTF("PID: %d", pid);
 
 		// Process all files
 		for (int i = 0; i < argc; i++)
@@ -65,8 +66,12 @@ int main(int argc, const char **argv)
 			VPRINTF("\nDLLs[%d]: %s\n", i, argv[i]);
 			switch (command)
 			{
-				case COMMAND_INJECT:	exitCode = inject(name, pid, argv[i], verbose);	break;
-				case COMMAND_EJECT:		exitCode = eject(name, pid, argv[i], verbose);	break;
+				case COMMAND_INJECT:
+					exitCode = inject(name, pid, (char *)argv[i], verbose);	
+					break;
+				case COMMAND_EJECT:
+					exitCode = eject(name, pid, (char*)argv[i], verbose);
+					break;
 
 				default:
 					printf("Wrong command! Type --help for more informations.\n");

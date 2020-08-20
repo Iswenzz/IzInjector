@@ -17,9 +17,9 @@ HRESULT ThrowIf(_Bool condition, HRESULT code, _Bool verbose)
 		// Get the error message from HRESULT
 		if (verbose)
 		{
-			LPTSTR wszMsgBuff = NULL;
+			LPSTR wszMsgBuff = NULL;
 			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &wszMsgBuff, 0, NULL);
+				NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&wszMsgBuff, 0, NULL);
 			printf("ERROR[%d]: %s\n", code, wszMsgBuff);
 			LocalFree(wszMsgBuff);
 		}
