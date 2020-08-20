@@ -1,12 +1,13 @@
 #include "IzInjector.h"
+#include "utility.h"
 #include <stdio.h>
 #include <argparse.h>
 
 typedef enum
 {
-	METHOD_INJECT = 1,
-	METHOD_EJECT = 2,
-} ProcessMethod;
+	COMMAND_INJECT = 1,
+	COMMAND_EJECT = 2,
+} ProcessCommand;
 
 /// <summary>
 /// The CLI usage message.
@@ -24,47 +25,54 @@ static const char *usage[] = {
 /// <returns>Injection return code.</returns>
 int main(int argc, const char **argv)
 {
+	HRESULT exitCode = 0;
 	int pid = -1, verbose = 0;
 	char *name = NULL;
-	ProcessMethod method = 0;
+	ProcessCommand command = 0;
 
 	struct argparse_option options[] = {
 		OPT_HELP(),
 		OPT_GROUP("IzInjector commands"),
-		OPT_BIT(0, "inject", &method, "DLL Injection mode", NULL, METHOD_INJECT),
-		OPT_BIT(0, "eject", &method, "DLL Ejection mode", NULL, METHOD_EJECT),
+		OPT_BIT(0, "inject", &command, "DLL Injection mode", NULL, COMMAND_INJECT),
+		OPT_BIT(0, "eject", &command, "DLL Ejection mode", NULL, COMMAND_EJECT),
 		OPT_GROUP("IzInjector options"),
 		OPT_STRING('n', "name", &name, "The target process name"),
 		OPT_INTEGER('p', "pid", &pid, "The target process ID"),
-		OPT_BOOLEAN('v', "verbose", &verbose, "Log the method process."),
+		OPT_BOOLEAN('v', "verbose", &verbose, "Log the command process."),
 		OPT_END(),
 	};
 
 	struct argparse argparse;
 	argparse_init(&argparse, options, usage, 0);
 	argparse_describe(&argparse, "\nThis application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory.", NULL);
-
 	argc = argparse_parse(&argparse, argc, argv);
+
 	// CLI Version
 	if (argc != 0)
 	{
+		// Check if either proc pid or name is defined
 		if (pid == -1 && name == NULL)
 		{
-			printf("You must use either --pid or --name option to target a process. Type --help for more informations!");
+			printf("You must use either --pid or --name option to target a process. Type --help for more informations!\n");
 			return ERROR_BAD_ARGUMENTS;
 		}
+		VPRINTF("\nCommand: %d\n", command);
+		VPRINTF(pid == -1 ? "Name: %s\n" : "PID: %d\n", pid == -1 ? name : pid);
+
+		// Process all files
 		for (int i = 0; i < argc; i++)
 		{
-			switch (method)
+			VPRINTF("\nDLLs[%d]: %s\n", i, argv[i]);
+			switch (command)
 			{
-				case METHOD_INJECT: return inject(name, argv[i], pid, verbose);
-				case METHOD_EJECT: return eject(name, argv[i], pid, verbose);
+				case COMMAND_INJECT:	exitCode = inject(name, pid, argv[i], verbose);	break;
+				case COMMAND_EJECT:		exitCode = eject(name, pid, argv[i], verbose);	break;
 
 				default:
-					printf("Wrong command! Type --help for more informations.");
+					printf("Wrong command! Type --help for more informations.\n");
 					return ERROR_BAD_ARGUMENTS;
 			}
 		}
 	}
-	return 0;
+	return exitCode;
 }
