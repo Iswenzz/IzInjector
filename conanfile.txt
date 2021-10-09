@@ -1,0 +1,5 @@
+[requires]
+argtable3/3.2.1
+
+[generators]
+cmake
