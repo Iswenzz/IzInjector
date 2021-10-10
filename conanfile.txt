@@ -1,5 +1,6 @@
 [requires]
 argtable3/3.2.1
+greatest/1.5.0
 
 [generators]
 cmake

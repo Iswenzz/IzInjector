@@ -76,7 +76,7 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 	VPRINTF("[INFO] Valid file attribute %d\n", dwAttrib);
 
 	// Get process ID by name if pid is unknown
-	DWORD procID = pid == -1 ? GetProcessByName(processName) : pid;
+	DWORD procID = !pid ? GetProcessByName(processName) : pid;
 	THROWIF(!procID, GetLastError(), verbose);
 	VPRINTF("[INFO] Found procID %d\n", procID);
 
