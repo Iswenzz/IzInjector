@@ -2,6 +2,7 @@
 
 TEST test() 
 {
+
     ASSERT_EQ(1, 1);
 }
 

@@ -19,6 +19,7 @@ target_link_libraries(IzInjectorTests PUBLIC ${CONAN_LIBS} IzInjectorLib)
 add_test(NAME IzInjector COMMAND IzInjectorTests)
 
 # Build
+add_subdirectory(fixture)
 add_subdirectory(src)
 add_executable(IzInjector src/main.c)
 target_link_libraries(IzInjector PRIVATE ${CONAN_LIBS} IzInjectorLib)
