@@ -33,6 +33,10 @@ HRESULT Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 		GetLastError(), verbose);
 	VPRINTF("[INFO] Valid file attribute %d\n", dwAttrib);
 
+	// Get absolute path
+	TCHAR absolutePath[MAX_PATH];
+	GetFullPathName(dllpath, MAX_PATH, absolutePath, NULL);
+
 	// Get process ID by name if pid is unknown
 	DWORD procID = !pid ? GetProcessByName(processName) : pid;
 	THROWIF(!procID, ERROR_PROC_NOT_FOUND, verbose);
@@ -47,13 +51,18 @@ HRESULT Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 	// Alloc the dll path string to the target process
 	LPVOID pAlloc = NULL;
 	if (hndProc)
-		pAlloc = VirtualAllocEx(hndProc, NULL, (strlen(dllpath) + 1) * sizeof(char),
+	{
+		pAlloc = VirtualAllocEx(hndProc, NULL, (strlen(absolutePath) + 1) * sizeof(char),
 			MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	}
 	THROWIF(pAlloc == NULL, GetLastError(), verbose);
 	VPRINTF("[INFO] Library path alloc %p\n", pAlloc);
 	if (hndProc && pAlloc)
-		THROWIF(!WriteProcessMemory(hndProc, pAlloc, dllpath, (strlen(dllpath) + 1) * sizeof(char), NULL),
+	{
+		THROWIF(!WriteProcessMemory(hndProc, pAlloc, absolutePath,
+			(strlen(absolutePath) + 1) * sizeof(char), NULL),
 			GetLastError(), verbose);
+	}
 
 	// Create a remote thread to load the module
 	HANDLE thread = NULL;
@@ -75,6 +84,10 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 		GetLastError(), verbose);
 	VPRINTF("[INFO] Valid file attribute %d\n", dwAttrib);
 
+	// Get absolute path
+	TCHAR absolutePath[MAX_PATH];
+	GetFullPathName(dllpath, MAX_PATH, absolutePath, NULL);
+
 	// Get process ID by name if pid is unknown
 	DWORD procID = !pid ? GetProcessByName(processName) : pid;
 	THROWIF(!procID, GetLastError(), verbose);
@@ -90,7 +103,7 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 		bMoreMods; 
 		bMoreMods = Module32Next(snapshot, &ModEntry))
 	{
-		found = !strcmp(ModEntry.szModule, dllpath) || !strcmp(ModEntry.szExePath, dllpath);
+		found = !strcmp(ModEntry.szModule, absolutePath) || !strcmp(ModEntry.szExePath, absolutePath);
 		if (found) break;
 	}
 	SafeFreeHandle(snapshot);
