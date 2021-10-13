@@ -1,5 +1,5 @@
 #include "IzInjector.h"
-#include "Utility.h"
+#include "Utils.h"
 
 #include <stdio.h>
 #include <argtable3.h>
@@ -71,12 +71,20 @@ int main(int argc, const char **argv)
 		{
 			VPRINTF("\n[INFO] %s %s\n", *mode->sval, *files[i].filename);
 
-			if (!stricmp(*mode->sval, "INJECT") 
-				&& FAILED(Inject(*name->sval, PIDValue, *files[i].filename, verbose)))
-				return 1;
-			else if (!stricmp(*mode->sval, "EJECT") 
-				&& FAILED(Eject(*name->sval, PIDValue, *files[i].filename, verbose)))
-				return 1;
+			if (!stricmp(*mode->sval, "INJECT"))
+			{
+				LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue, 
+					*files[i].filename, verbose);
+				if (!proc) return 1;
+				FreeProcInfo(proc);
+			}
+			else if (!stricmp(*mode->sval, "EJECT"))
+			{
+				LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue, 
+					*files[i].filename, TRUE, verbose);
+				if (!proc) return 1;
+				FreeProcInfo(proc);
+			}
 		}
 	}
 	return 0;

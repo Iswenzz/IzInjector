@@ -1,13 +1,11 @@
-#include "Utility.h"
+#include "Utils.h"
 #include <stdio.h>
 
-void SafeFreeHandle(HANDLE handle)
+void FreeProcInfo(LPPROCESS_INFORMATION procInfo)
 {
-	if (handle)
-	{
-		CloseHandle(handle);
-		handle = NULL;
-	}
+	CloseHandle(procInfo->hThread);
+	CloseHandle(procInfo->hProcess);
+	free(procInfo);
 }
 
 HRESULT ThrowIf(_Bool condition, HRESULT code, _Bool verbose)
@@ -18,12 +16,13 @@ HRESULT ThrowIf(_Bool condition, HRESULT code, _Bool verbose)
 		if (verbose)
 		{
 			LPSTR wszMsgBuff = NULL;
-			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+				FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 				NULL, code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&wszMsgBuff, 0, NULL);
 			printf("ERROR[%d]: %s\n", code, wszMsgBuff);
 			LocalFree(wszMsgBuff);
 		}
 		return code;
 	}
-	return ERROR_SUCCESS;
+	return S_OK;
 }

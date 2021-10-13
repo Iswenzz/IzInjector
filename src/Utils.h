@@ -4,9 +4,9 @@
 /// <summary>
 /// Throw the function with a HRESULT code if the condition match.
 /// </summary>
-#define THROWIF(condition, code, verbose)				\
-if (ThrowIf(condition, code, verbose) != ERROR_SUCCESS)	\
-	return code											\
+#define THROWIF(condition, code, verbose)		\
+if (ThrowIf(condition, code, verbose) != S_OK)	\
+	return NULL									\
 
 /// <summary>
 /// Print a message to stdout if verbose flag is set.
@@ -15,10 +15,10 @@ if (ThrowIf(condition, code, verbose) != ERROR_SUCCESS)	\
 if (verbose) printf(__VA_ARGS__)
 
 /// <summary>
-/// Safely free a HANDLE.
+/// Free a LPPROCESS_INFORMATION.
 /// </summary>
-/// <param name="handle">The HANDLE to free.</param>
-void SafeFreeHandle(HANDLE handle);
+/// <param name="procInfo">The proc info to free.</param>
+void FreeProcInfo(LPPROCESS_INFORMATION procInfo);
 
 /// <summary>
 /// Throw the error code if the condition match.

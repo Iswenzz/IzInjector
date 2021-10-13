@@ -1,5 +1,5 @@
 #include "IzInjector.h"
-#include "Utility.h"
+#include "Utils.h"
 
 #include <stdio.h>
 #include <TlHelp32.h>
@@ -21,11 +21,11 @@ DWORD GetProcessByName(char *processName)
 	} 
 	while (Process32Next(hPID, &ProcEntry));
 
-	SafeFreeHandle(hPID);
+	CloseHandle(hPID);
 	return foundPID;
 }
 
-HRESULT Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
+LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 {
 	// Check if DLL path is valid
 	DWORD dwAttrib = GetFileAttributes(dllpath);
@@ -55,7 +55,7 @@ HRESULT Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 		pAlloc = VirtualAllocEx(hndProc, NULL, (strlen(absolutePath) + 1) * sizeof(char),
 			MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 	}
-	THROWIF(pAlloc == NULL, GetLastError(), verbose);
+	ThrowIf(pAlloc == NULL, GetLastError(), verbose);
 	VPRINTF("[INFO] Library path alloc %p\n", pAlloc);
 	if (hndProc && pAlloc)
 	{
@@ -66,17 +66,26 @@ HRESULT Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 
 	// Create a remote thread to load the module
 	HANDLE thread = NULL;
+	DWORD threadID = 0;
 	if (hndProc && pAlloc)
-		thread = CreateRemoteThread(hndProc, 0, 0, (LPTHREAD_START_ROUTINE)LoadLibrary, pAlloc, 0, 0);
+	{
+		thread = CreateRemoteThread(hndProc, NULL, 0, 
+			(LPTHREAD_START_ROUTINE)LoadLibrary, pAlloc, 0, &threadID);
+	}
 	THROWIF(thread == NULL, GetLastError(), verbose);
 	VPRINTF("[INFO] Created thread handle %p\n", thread);
-	SafeFreeHandle(thread);
 
-	SafeFreeHandle(hndProc);
-	return ERROR_SUCCESS;
+	// Create a process info
+	LPPROCESS_INFORMATION procInfo = (LPPROCESS_INFORMATION)malloc(sizeof(PROCESS_INFORMATION));
+	procInfo->hProcess = hndProc;
+	procInfo->dwProcessId = procID;
+	procInfo->hThread = thread;
+	procInfo->dwThreadId = threadID;
+	return procInfo;
 }
 
-HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
+LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath, 
+	_Bool waitForExit, _Bool verbose)
 {
 	// Check if DLL path is valid
 	DWORD dwAttrib = GetFileAttributes(dllpath);
@@ -106,7 +115,7 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 		found = !strcmp(ModEntry.szModule, absolutePath) || !strcmp(ModEntry.szExePath, absolutePath);
 		if (found) break;
 	}
-	SafeFreeHandle(snapshot);
+	if (snapshot) CloseHandle(snapshot);
 	THROWIF(!found, ERROR_MOD_NOT_FOUND, verbose);
 	VPRINTF("[INFO] Found module handle %p\n", ModEntry.modBaseAddr);
 
@@ -118,14 +127,16 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 
 	// Create a remote thread to terminate the module
 	HANDLE thread = NULL;
+	DWORD threadID = 0;
 	if (hndProc)
-		thread = CreateRemoteThread(hndProc, 0, 0, (LPTHREAD_START_ROUTINE)FreeLibrary, 
-			ModEntry.modBaseAddr, 0, 0);
-	SafeFreeHandle(hndProc);
+	{
+		thread = CreateRemoteThread(hndProc, NULL, 0, 
+			(LPTHREAD_START_ROUTINE)FreeLibrary, ModEntry.modBaseAddr, 0, &threadID);
+	}
 	VPRINTF("[INFO] Thread handle %p\n", thread);
 
 	// Wait for the remote thread to terminate
-	if (thread)
+	if (waitForExit && thread)
 	{
 		VPRINTF("[INFO] Wait for the remote thread to terminate the module...\n");
 		WaitForSingleObject(thread, INFINITE);
@@ -133,11 +144,17 @@ HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose)
 		// Return thread exit code
 		DWORD exitCode;
 		THROWIF(!GetExitCodeThread(thread, &exitCode), GetLastError(), verbose);
-		SafeFreeHandle(thread);
 		VPRINTF("[INFO] Target exit code %d\n", exitCode);
 
 		THROWIF(exitCode != TRUE, exitCode, verbose);
 	}
 	THROWIF(thread == NULL, GetLastError(), verbose);
-	return ERROR_SUCCESS;
+	
+	// Create a process info
+	LPPROCESS_INFORMATION procInfo = (LPPROCESS_INFORMATION)malloc(sizeof(PROCESS_INFORMATION));
+	procInfo->hProcess = hndProc;
+	procInfo->dwProcessId = procID;
+	procInfo->hThread = thread;
+	procInfo->dwThreadId = threadID;
+	return procInfo;
 }

@@ -1,6 +1,6 @@
 add_library(IzInjectorLib
    IzInjector.c
-   Utility.c)
+   Utils.c)
 
 add_subdirectory(tests)
 

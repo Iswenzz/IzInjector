@@ -15,8 +15,8 @@ DWORD GetProcessByName(char *processName);
 /// <param name="pid">The process ID.</param>
 /// <param name="dllpath">The DLL path.</param>
 /// <param name="verbose">Log the process.</param>
-/// <returns>Ejection return code.</returns>
-HRESULT Inject(char* processName, int pid, const char* dllpath, _Bool verbose);
+/// <returns>DLL Process.</returns>
+LPPROCESS_INFORMATION Inject(char* processName, int pid, const char* dllpath, _Bool verbose);
 
 /// <summary>
 /// Eject a specific DLL from the target process.
@@ -24,6 +24,8 @@ HRESULT Inject(char* processName, int pid, const char* dllpath, _Bool verbose);
 /// <param name="processName">The process name.</param>
 /// <param name="pid">The process ID.</param>
 /// <param name="dllpath">The DLL path.</param>
+/// <param name="waitForExit">Wait for the thread to terminate.</param>
 /// <param name="verbose">Log the process.</param>
-/// <returns>Ejection return code.</returns>
-HRESULT Eject(char* processName, int pid, const char* dllpath, _Bool verbose);
+/// <returns>DLL Process.</returns>
+LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath, 
+	_Bool waitForExit, _Bool verbose);
