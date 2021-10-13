@@ -1,13 +1,6 @@
 #include "Utils.h"
 #include <stdio.h>
 
-void FreeProcInfo(LPPROCESS_INFORMATION procInfo)
-{
-	CloseHandle(procInfo->hThread);
-	CloseHandle(procInfo->hProcess);
-	free(procInfo);
-}
-
 HRESULT ThrowIf(_Bool condition, HRESULT code, _Bool verbose)
 {
 	if (condition)

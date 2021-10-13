@@ -15,12 +15,6 @@ if (ThrowIf(condition, code, verbose) != S_OK)	\
 if (verbose) printf(__VA_ARGS__)
 
 /// <summary>
-/// Free a LPPROCESS_INFORMATION.
-/// </summary>
-/// <param name="procInfo">The proc info to free.</param>
-void FreeProcInfo(LPPROCESS_INFORMATION procInfo);
-
-/// <summary>
 /// Throw the error code if the condition match.
 /// </summary>
 /// <param name="condition">The condition.</param>

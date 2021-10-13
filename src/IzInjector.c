@@ -25,6 +25,13 @@ DWORD GetProcessByName(char *processName)
 	return foundPID;
 }
 
+void FreeProcInfo(LPPROCESS_INFORMATION procInfo)
+{
+	CloseHandle(procInfo->hThread);
+	CloseHandle(procInfo->hProcess);
+	free(procInfo);
+}
+
 LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
 {
 	// Check if DLL path is valid

@@ -7,15 +7,35 @@ This application is intended to allow users to inject a Dynamic-Link Library (DL
 
 ## Command Line Interface
 ```
-IzInjector.exe <processName> <dllPath>
+Usage: IzInjector --mode INJECT --name notepad.exe [DLLs Paths]
+
+        --help                    Display the program help message
+        --version                 Display the program version
+        -v, --verbose             Log the command process
+        -m, --mode=               DLL Injection mode [INJECT or EJECT]
+        -n, --name=               The target process name [notepad.exe]
+        -p, --pid=                The target process ID
+        <files>                   DLL Files
 ```
 
 ## Building
-This project can be built with [MinGW](http://www.mingw.org/) or [Visual Studio](https://visualstudio.microsoft.com/) or [CMake](https://cmake.org/).
+This project builds with [CMake](https://cmake.org/) and [Conan](https://conan.io/).
 
-_Build Command:_
+### x64
+```sh
+mkdir build64 && cd build64
+conan install ..
+cmake ..
+cmake --build .
+```
 
-    gcc *.c -o IzInjector.exe
+### x86
+```sh
+mkdir build32 && cd build32
+conan install .. --build=argtable3 -s arch=x86
+cmake .. -A Win32
+cmake --build .
+```
     
 ### [Download](https://github.com/Iswenzz/IzInjector/releases)
 

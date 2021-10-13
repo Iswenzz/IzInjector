@@ -9,6 +9,12 @@
 DWORD GetProcessByName(char *processName);
 
 /// <summary>
+/// Free a LPPROCESS_INFORMATION.
+/// </summary>
+/// <param name="procInfo">The proc info to free.</param>
+void FreeProcInfo(LPPROCESS_INFORMATION procInfo);
+
+/// <summary>
 /// Inject the specified DLL to a target process.
 /// </summary>
 /// <param name="processName">The process name.</param>
