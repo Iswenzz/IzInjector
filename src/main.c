@@ -8,6 +8,10 @@
 #define PROGRAM_DESCRIPTION "This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory."
 #define PROGRAM_USAGE PROGRAM_NAME " --mode INJECT --name notepad.exe [DLLs Paths]\n"
 
+/// <summary>
+/// Disaplay the help message.
+/// </summary>
+/// <param name="argtable">CLI arg table.</param>
 void DisplayHelp(void* argtable)
 {
 	printf("\nUsage: %s\n", PROGRAM_USAGE);
@@ -23,6 +27,7 @@ void DisplayHelp(void* argtable)
 /// <returns>Injection return code.</returns>
 int main(int argc, const char **argv)
 {
+	// Arguments
 	arg_lit_t* help = arg_litn(NULL, "help", 0, 1, "Display the program help message");
 	arg_lit_t* version = arg_litn(NULL, "version", 0, 1, "Display the program version");
 	arg_lit_t* verb = arg_litn("v", "verbose", 0, 1, "Log the command process");
@@ -36,6 +41,8 @@ int main(int argc, const char **argv)
 
 	void* argtable[] = { help, version, verb, mode, name, pid, files, end };
 	int nerrors = arg_parse(argc, argv, argtable);
+	int PIDValue = pid->count ? *pid->ival : 0;
+	_Bool verbose = verb->count;
 
 	// Display help or error message
 	if (nerrors || help->count)
@@ -49,42 +56,38 @@ int main(int argc, const char **argv)
 		return 0;
 	}
 
-	// CLI Version
-	if (argc != 0)
+	// Check if either proc pid or name is defined
+	if (!pid->count && !name->count)
 	{
-		_Bool verbose = verb->count;
+		DisplayHelp(argtable);
+		printf("You must use either --pid or --name option to target a process.\n");
+		return ERROR_BAD_ARGUMENTS;
+	}
+	if (pid->count) 
+		VPRINTF("Name: %s\n", *name->sval);
+	else if (name->count) 
+		VPRINTF("PID: %d\n", *pid->ival);
 
-		// Check if either proc pid or name is defined
-		if (!pid->count && !name->count)
+	// Process all files
+	for (int i = 0; i < files->count; i++)
+	{
+		VPRINTF("\n[INFO] %s %s\n", *mode->sval, *files[i].filename);
+
+		if (!stricmp(*mode->sval, "INJECT"))
 		{
-			DisplayHelp(argtable);
-			printf("You must use either --pid or --name option to target a process.\n");
-			return ERROR_BAD_ARGUMENTS;
+			LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue,
+				*files[i].filename, verbose);
+			if (!proc) 
+				return 1;
+			FreeProcInfo(proc);
 		}
-		if (pid->count) VPRINTF("Name: %s\n", *name->sval);
-		else if (name->count) VPRINTF("PID: %d\n", *pid->ival);
-
-		int PIDValue = pid->count ? *pid->ival : 0;
-
-		// Process all files
-		for (int i = 0; i < files->count; i++)
+		else if (!stricmp(*mode->sval, "EJECT"))
 		{
-			VPRINTF("\n[INFO] %s %s\n", *mode->sval, *files[i].filename);
-
-			if (!stricmp(*mode->sval, "INJECT"))
-			{
-				LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue, 
-					*files[i].filename, verbose);
-				if (!proc) return 1;
-				FreeProcInfo(proc);
-			}
-			else if (!stricmp(*mode->sval, "EJECT"))
-			{
-				LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue, 
-					*files[i].filename, TRUE, verbose);
-				if (!proc) return 1;
-				FreeProcInfo(proc);
-			}
+			LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue,
+				*files[i].filename, TRUE, verbose);
+			if (!proc) 
+				return 1;
+			FreeProcInfo(proc);
 		}
 	}
 	return 0;

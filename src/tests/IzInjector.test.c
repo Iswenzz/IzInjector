@@ -1,5 +1,6 @@
 #pragma warning(disable: 6335)
 #include "IzInjector.h"
+#include "Utils.h"
 
 #include <greatest.h>
 #include <Windows.h>
@@ -39,14 +40,18 @@ TEST test_inject()
 {
     LPPROCESS_INFORMATION proc = Inject("notepad.exe", 0, "IzInjectorFixture.dll", TRUE);
     SyncDestroyDialog();
+
     ASSERT(proc);
+    FreeProcInfo(proc);
 }
 
 TEST test_eject()
 {
     LPPROCESS_INFORMATION proc = Eject("notepad.exe", 0, "IzInjectorFixture.dll", FALSE, TRUE);
     SyncDestroyDialog();
+    
     ASSERT(proc);
+    FreeProcInfo(proc);
 }
 
 SUITE(Suite_IzInjector)
