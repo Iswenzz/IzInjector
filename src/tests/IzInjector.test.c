@@ -11,7 +11,7 @@ PROCESS_INFORMATION OpenNotepad()
     PROCESS_INFORMATION pi = { 0 };
     si.cb = sizeof(si);
 
-    CreateProcess(NULL, "\"notepad.exe\"", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    CreateProcess("C:\\Windows\\notepad.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
     return pi;
 }
 
