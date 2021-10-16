@@ -11,6 +11,5 @@ build64/*
 *.gcno
 *.gcda
 
-COVERAGE.sh
 opencppcoverageCoverage.xml
 LastCoverageResults.log
