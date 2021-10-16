@@ -1,8 +1,8 @@
 # IzInjector
-[![Build](https://github.com/Iswenzz/IzInjector/actions/workflows/build.yml/badge.svg)](https://github.com/Iswenzz/IzInjector/actions/workflows/build.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/iswenzz/izinjector/badge)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
-[![codecov](https://codecov.io/gh/Iswenzz/IzInjector/branch/master/graph/badge.svg?token=7lUS3DA3mx)](https://codecov.io/gh/Iswenzz/IzInjector)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Build](https://img.shields.io/github/checks-status/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/Iswenzz/IzInjector?label=codefactor&logo=codefactor)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
+[![codecov](https://img.shields.io/codecov/c/github/Iswenzz/IzInjector?label=codecov&logo=codecov)](https://codecov.io/gh/Iswenzz/IzInjector)
+[![GitHub](https://img.shields.io/github/license/Iswenzz/IzInjector?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/IzInjector/blob/master/LICENSE)
 
 This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this is meant to be used for educational purposes only, and I do not condone its use for cheating of any kind.
 
@@ -41,4 +41,5 @@ cmake --build .
 ### [Download](https://github.com/Iswenzz/IzInjector/releases)
 
 ## Contributors:
-***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.
+***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code.
+Also feel free to post about any problems that may arise in the issues section of the repository.
