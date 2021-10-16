@@ -1,5 +1,5 @@
 # IzInjector
-[![Build status](https://ci.appveyor.com/api/projects/status/cert46mc51ly0n37?svg=true)](https://ci.appveyor.com/project/Iswenzz/izinjector)
+[![Build](https://github.com/Iswenzz/IzInjector/actions/workflows/build.yml/badge.svg)](https://github.com/Iswenzz/IzInjector/actions/workflows/build.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/iswenzz/izinjector/badge)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
 [![codecov](https://codecov.io/gh/Iswenzz/IzInjector/branch/master/graph/badge.svg?token=7lUS3DA3mx)](https://codecov.io/gh/Iswenzz/IzInjector)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
