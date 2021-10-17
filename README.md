@@ -1,8 +1,8 @@
 # IzInjector
-[![Build](https://img.shields.io/github/checks-status/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
+[![Checks](https://img.shields.io/github/checks-status/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/Iswenzz/IzInjector?label=codefactor&logo=codefactor)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
-[![codecov](https://img.shields.io/codecov/c/github/Iswenzz/IzInjector?label=codecov&logo=codecov)](https://codecov.io/gh/Iswenzz/IzInjector)
-[![GitHub](https://img.shields.io/github/license/Iswenzz/IzInjector?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/IzInjector/blob/master/LICENSE)
+[![CodeCov](https://img.shields.io/codecov/c/github/Iswenzz/IzInjector?label=codecov&logo=codecov)](https://codecov.io/gh/Iswenzz/IzInjector)
+[![License](https://img.shields.io/github/license/Iswenzz/IzInjector?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/IzInjector/blob/master/LICENSE)
 
 This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this is meant to be used for educational purposes only, and I do not condone its use for cheating of any kind.
 
