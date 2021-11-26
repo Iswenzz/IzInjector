@@ -37,7 +37,7 @@ void SyncDestroyDialog()
 
 TEST test_inject() 
 {
-    LPPROCESS_INFORMATION proc = Inject("notepad.exe", 0, "IzInjectorFixture.dll", TRUE);
+    LPPROCESS_INFORMATION proc = Inject("notepad.exe", 0, "IzInjector.Fixture.dll", TRUE);
     SyncDestroyDialog();
 
     ASSERT(proc);
@@ -46,7 +46,7 @@ TEST test_inject()
 
 TEST test_eject()
 {
-    LPPROCESS_INFORMATION proc = Eject("notepad.exe", 0, "IzInjectorFixture.dll", FALSE, TRUE);
+    LPPROCESS_INFORMATION proc = Eject("notepad.exe", 0, "IzInjector.Fixture.dll", FALSE, TRUE);
     SyncDestroyDialog();
     
     ASSERT(proc);
