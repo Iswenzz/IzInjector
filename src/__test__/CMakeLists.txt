@@ -1,2 +1,2 @@
-target_sources(IzInjectorTests PRIVATE
+target_sources(IzInjector.Tests PRIVATE
    IzInjector.test.c)

@@ -1,1 +1,1 @@
-add_library(IzInjectorFixture SHARED dllmain.c)
+add_library(IzInjector.Fixture SHARED dllmain.c)
