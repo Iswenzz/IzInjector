@@ -1,6 +1,5 @@
 #pragma warning(disable: 6335)
 #include "IzInjector.h"
-#include "Utils.h"
 
 #include <greatest.h>
 #include <Windows.h>
