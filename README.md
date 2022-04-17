@@ -25,7 +25,7 @@ This project builds with [CMake](https://cmake.org/) and [Conan](https://conan.i
 ### x64
 ```sh
 mkdir build64 && cd build64
-conan install ..
+conan install .. --build missing
 cmake ..
 cmake --build .
 ```
@@ -33,7 +33,7 @@ cmake --build .
 ### x86
 ```sh
 mkdir build32 && cd build32
-conan install .. --build=argtable3 -s arch=x86
+conan install .. --build missing -s arch=x86
 cmake .. -A Win32
 cmake --build .
 ```
