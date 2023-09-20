@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: |
         mkdir build && cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=".vcpkg/windows.cmake" -DBUILD_CLI=True
+        cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=".vcpkg/windows.cmake" -DBUILD_TESTING=True
         cmake --build . --config ${{env.BUILD_TYPE}}
 
     - name: Artifact
