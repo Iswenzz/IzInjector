@@ -38,6 +38,9 @@ cmake --build .
 
 ### [Download](https://github.com/Iswenzz/IzInjector/releases)
 
+## Package
+This package is available for use via [vcpkg-registry](https://github.com/Iswenzz/vcpkg-registry).
+
 ## Contributors:
 ***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code.
 Also feel free to post about any problems that may arise in the issues section of the repository.
