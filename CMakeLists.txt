@@ -36,7 +36,7 @@ endif()
 # Install
 install(TARGETS IzInjector EXPORT IzInjectorTargets LIBRARY DESTINATION lib)
 install(TARGETS IzInjector.Fixture DESTINATION test)
-install(DIRECTORY src/ DESTINATION lib/include/IzInjector FILES_MATCHING PATTERN "*.h" PATTERN "__test__" EXCLUDE)
+install(DIRECTORY src/ DESTINATION include/IzInjector FILES_MATCHING PATTERN "*.h" PATTERN "__test__" EXCLUDE)
 
 # Package
 include(CMakePackageConfigHelpers)

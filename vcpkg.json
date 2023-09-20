@@ -2,7 +2,7 @@
 	"name": "izinjector",
 	"version": "1.0.2",
 	"description": "This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory.",
-  	"homepage": "https://github.com/Iswenzz/CoD4-DM1",
+  	"homepage": "https://github.com/Iswenzz/IzInjector",
 	"features": {
 		"cli": {
 			"description": "Build CLI",
