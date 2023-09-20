@@ -20,24 +20,22 @@ Usage: IzInjector --mode INJECT --name notepad.exe [DLLs Paths]
 ```
 
 ## Building
-This project builds with [CMake](https://cmake.org/) and [Conan](https://conan.io/).
+This project builds with [CMake](https://cmake.org/) and [vcpkg](https://vcpkg.io/).
 
 ### x64
 ```sh
 mkdir build64 && cd build64
-conan install .. --build missing
-cmake ..
+cmake .. -DCMAKE_TOOLCHAIN_FILE=.vcpkg/windows.cmake -DBUILD_CLI=True
 cmake --build .
 ```
 
 ### x86
 ```sh
 mkdir build32 && cd build32
-conan install .. --build missing -s arch=x86
-cmake .. -A Win32
+cmake .. -A Win32 -DCMAKE_TOOLCHAIN_FILE=.vcpkg/windows.cmake -DBUILD_CLI=True
 cmake --build .
 ```
-    
+
 ### [Download](https://github.com/Iswenzz/IzInjector/releases)
 
 ## Contributors:

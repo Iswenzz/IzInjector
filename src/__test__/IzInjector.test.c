@@ -35,28 +35,30 @@ void SyncDestroyDialog()
     }
 }
 
-TEST test_inject() 
+TEST test_inject()
 {
     LPPROCESS_INFORMATION proc = Inject("notepad.exe", 0, "IzInjector.Fixture.dll", TRUE);
     SyncDestroyDialog();
 
     ASSERT(proc);
     FreeProcInfo(proc);
+	PASS();
 }
 
 TEST test_eject()
 {
     LPPROCESS_INFORMATION proc = Eject("notepad.exe", 0, "IzInjector.Fixture.dll", FALSE, TRUE);
     SyncDestroyDialog();
-    
+
     ASSERT(proc);
     FreeProcInfo(proc);
+	PASS();
 }
 
 SUITE(Suite_IzInjector)
 {
     // Fixture DLL location and notepad for testing it
-    SetCurrentDirectory("bin");
+    SetCurrentDirectory("fixture/Debug");
     PROCESS_INFORMATION process = OpenNotepad();
 
     RUN_TEST(test_inject);

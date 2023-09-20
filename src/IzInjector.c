@@ -17,7 +17,7 @@ DWORD GetProcessByName(char *processName)
 			foundPID = ProcEntry.th32ProcessID;
 			break;
 		}
-	} 
+	}
 	while (Process32Next(hPID, &ProcEntry));
 
 	CloseHandle(hPID);
@@ -31,7 +31,7 @@ void FreeProcInfo(LPPROCESS_INFORMATION procInfo)
 	free(procInfo);
 }
 
-LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _Bool verbose)
+LPPROCESS_INFORMATION Inject(const char *processName, int pid, const char *dllpath, _Bool verbose)
 {
 	// Check if DLL path is valid
 	DWORD dwAttrib = GetFileAttributes(dllpath);
@@ -44,7 +44,7 @@ LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _B
 	GetFullPathName(dllpath, MAX_PATH, absolutePath, NULL);
 
 	// Get process ID by name if pid is unknown
-	DWORD procID = !pid ? GetProcessByName(processName) : pid;
+	DWORD procID = !pid ? GetProcessByName((char*)processName) : pid;
 	THROWIF(!procID, ERROR_PROC_NOT_FOUND, verbose);
 	VPRINTF("[INFO] Found procID %d\n", procID);
 
@@ -75,7 +75,7 @@ LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _B
 	DWORD threadID = 0;
 	if (hndProc && pAlloc)
 	{
-		thread = CreateRemoteThread(hndProc, NULL, 0, 
+		thread = CreateRemoteThread(hndProc, NULL, 0,
 			(LPTHREAD_START_ROUTINE)LoadLibrary, pAlloc, 0, &threadID);
 	}
 	THROWIF(thread == NULL, GetLastError(), verbose);
@@ -90,12 +90,12 @@ LPPROCESS_INFORMATION Inject(char *processName, int pid, const char *dllpath, _B
 	return procInfo;
 }
 
-LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath, 
+LPPROCESS_INFORMATION Eject(const char* processName, int pid, const char* dllpath,
 	_Bool waitForExit, _Bool verbose)
 {
 	// Check if DLL path is valid
 	DWORD dwAttrib = GetFileAttributes(dllpath);
-	THROWIF(dwAttrib == INVALID_FILE_ATTRIBUTES || dwAttrib & FILE_ATTRIBUTE_DIRECTORY, 
+	THROWIF(dwAttrib == INVALID_FILE_ATTRIBUTES || dwAttrib & FILE_ATTRIBUTE_DIRECTORY,
 		GetLastError(), verbose);
 	VPRINTF("[INFO] Valid file attribute %d\n", dwAttrib);
 
@@ -104,7 +104,7 @@ LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath,
 	GetFullPathName(dllpath, MAX_PATH, absolutePath, NULL);
 
 	// Get process ID by name if pid is unknown
-	DWORD procID = !pid ? GetProcessByName(processName) : pid;
+	DWORD procID = !pid ? GetProcessByName((char*)processName) : pid;
 	THROWIF(!procID, GetLastError(), verbose);
 	VPRINTF("[INFO] Found procID %d\n", procID);
 
@@ -115,7 +115,7 @@ LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath,
 	THROWIF(snapshot == INVALID_HANDLE_VALUE, GetLastError(), verbose);
 
 	for (BOOL bMoreMods = Module32First(snapshot, &ModEntry);
-		bMoreMods; 
+		bMoreMods;
 		bMoreMods = Module32Next(snapshot, &ModEntry))
 	{
 		found = !strcmp(ModEntry.szModule, absolutePath) || !strcmp(ModEntry.szExePath, absolutePath);
@@ -126,7 +126,7 @@ LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath,
 	VPRINTF("[INFO] Found module handle %p\n", ModEntry.modBaseAddr);
 
 	// Open target process
-	HANDLE hndProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_CREATE_THREAD 
+	HANDLE hndProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_CREATE_THREAD
 		| PROCESS_VM_OPERATION, FALSE, procID);
 	THROWIF(!hndProc, GetLastError(), verbose);
 	VPRINTF("[INFO] Target process handle %p\n", hndProc);
@@ -136,7 +136,7 @@ LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath,
 	DWORD threadID = 0;
 	if (hndProc)
 	{
-		thread = CreateRemoteThread(hndProc, NULL, 0, 
+		thread = CreateRemoteThread(hndProc, NULL, 0,
 			(LPTHREAD_START_ROUTINE)FreeLibrary, ModEntry.modBaseAddr, 0, &threadID);
 	}
 	VPRINTF("[INFO] Thread handle %p\n", thread);
@@ -155,7 +155,7 @@ LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath,
 		THROWIF(exitCode != TRUE, exitCode, verbose);
 	}
 	THROWIF(thread == NULL, GetLastError(), verbose);
-	
+
 	// Create a process info
 	LPPROCESS_INFORMATION procInfo = (LPPROCESS_INFORMATION)malloc(sizeof(PROCESS_INFORMATION));
 	procInfo->hProcess = hndProc;

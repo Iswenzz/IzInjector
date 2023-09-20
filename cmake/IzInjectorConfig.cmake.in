@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+
+set(IZINJECTOR_INCLUDE_DIRS "@CMAKE_INSTALL_PREFIX@/include")
+
+if(BUILD_CLI)
+	find_dependency(Argtable3 CONFIG REQUIRED)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/IzInjectorTargets.cmake")

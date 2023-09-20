@@ -62,9 +62,9 @@ int main(int argc, const char **argv)
 		printf("You must use either --pid or --name option to target a process.\n");
 		return ERROR_BAD_ARGUMENTS;
 	}
-	if (pid->count) 
+	if (pid->count)
 		VPRINTF("Name: %s\n", *name->sval);
-	else if (name->count) 
+	else if (name->count)
 		VPRINTF("PID: %d\n", *pid->ival);
 
 	// Process all files
@@ -76,7 +76,7 @@ int main(int argc, const char **argv)
 		{
 			LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue,
 				*files[i].filename, verbose);
-			if (!proc) 
+			if (!proc)
 				return 1;
 			FreeProcInfo(proc);
 		}
@@ -84,7 +84,7 @@ int main(int argc, const char **argv)
 		{
 			LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue,
 				*files[i].filename, TRUE, verbose);
-			if (!proc) 
+			if (!proc)
 				return 1;
 			FreeProcInfo(proc);
 		}

@@ -35,7 +35,7 @@ void FreeProcInfo(LPPROCESS_INFORMATION procInfo);
 /// <param name="dllpath">The DLL path.</param>
 /// <param name="verbose">Log the process.</param>
 /// <returns>DLL Process.</returns>
-LPPROCESS_INFORMATION Inject(char* processName, int pid, const char* dllpath, _Bool verbose);
+LPPROCESS_INFORMATION Inject(const char* processName, int pid, const char* dllpath, _Bool verbose);
 
 /// <summary>
 /// Eject a specific DLL from the target process.
@@ -46,7 +46,7 @@ LPPROCESS_INFORMATION Inject(char* processName, int pid, const char* dllpath, _B
 /// <param name="waitForExit">Wait for the thread to terminate.</param>
 /// <param name="verbose">Log the process.</param>
 /// <returns>DLL Process.</returns>
-LPPROCESS_INFORMATION Eject(char* processName, int pid, const char* dllpath, 
+LPPROCESS_INFORMATION Eject(const char* processName, int pid, const char* dllpath,
 	_Bool waitForExit, _Bool verbose);
 
 /// <summary>
