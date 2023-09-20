@@ -54,7 +54,7 @@ jobs:
 
     - name: Tests
       run: |
-        opencppcoverage --quiet --export_type=cobertura:opencppcoverageCoverage.xml --working_dir build --sources src -- build/bin/IzInjector.Tests.exe
+        opencppcoverage --quiet --export_type=cobertura:opencppcoverageCoverage.xml --working_dir build --sources src -- build/Debug/IzInjector.Tests.exe
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
