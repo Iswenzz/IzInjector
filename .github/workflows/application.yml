@@ -16,10 +16,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Vcpkg
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgGitCommitId: 4a600e9fea71bd7872080cbb716797e04d30e6d3
+
     - name: Build
       run: |
         mkdir build && cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=.vcpkg/windows.cmake -DBUILD_CLI=True
+        cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=".vcpkg/windows.cmake" -DBUILD_TESTING=True
         cmake --build . --config ${{env.BUILD_TYPE}}
 
     - name: Artifact
@@ -49,7 +54,7 @@ jobs:
 
     - name: Tests
       run: |
-        opencppcoverage --quiet --export_type=cobertura:opencppcoverageCoverage.xml --working_dir build --sources src -- build/bin/IzInjector.Tests.exe
+        opencppcoverage --quiet --export_type=cobertura:opencppcoverageCoverage.xml --working_dir build --sources src -- build/Debug/IzInjector.Tests.exe
 
     - name: CodeCov
       uses: codecov/codecov-action@v2
