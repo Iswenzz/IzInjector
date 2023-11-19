@@ -1,4 +1,4 @@
-add_library(IzInjector STATIC)
+add_library(IzInjector)
 add_subdirectory(__test__)
 
 target_sources(IzInjector PRIVATE
