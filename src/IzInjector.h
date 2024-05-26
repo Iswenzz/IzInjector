@@ -4,22 +4,23 @@
 /// <summary>
 /// Throw the function with a HRESULT code if the condition match.
 /// </summary>
-#define THROWIF(condition, code, verbose)		\
-if (ThrowIf(condition, code, verbose) != S_OK)	\
-	return NULL									\
+#define THROWIF(condition, code, verbose)          \
+	if (ThrowIf(condition, code, verbose) != S_OK) \
+	return NULL
 
 /// <summary>
 /// Print a message to stdout if verbose flag is set.
 /// </summary>
 #define VPRINTF(...) \
-if (verbose) printf(__VA_ARGS__)
+	if (verbose)     \
+	printf(__VA_ARGS__)
 
 /// <summary>
 /// Get the first process occurence by name.
 /// </summary>
 /// <param name="processName">The process name.</param>
 /// <returns>The process ID.</returns>
-DWORD GetProcessByName(char *processName);
+DWORD GetProcessByName(char* processName);
 
 /// <summary>
 /// Free a LPPROCESS_INFORMATION.
@@ -46,8 +47,7 @@ LPPROCESS_INFORMATION Inject(const char* processName, int pid, const char* dllpa
 /// <param name="waitForExit">Wait for the thread to terminate.</param>
 /// <param name="verbose">Log the process.</param>
 /// <returns>DLL Process.</returns>
-LPPROCESS_INFORMATION Eject(const char* processName, int pid, const char* dllpath,
-	_Bool waitForExit, _Bool verbose);
+LPPROCESS_INFORMATION Eject(const char* processName, int pid, const char* dllpath, _Bool waitForExit, _Bool verbose);
 
 /// <summary>
 /// Throw the error code if the condition match.

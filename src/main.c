@@ -1,10 +1,12 @@
 #include "IzInjector.h"
 
-#include <stdio.h>
 #include <argtable3.h>
+#include <stdio.h>
 
 #define PROGRAM_NAME "IzInjector"
-#define PROGRAM_DESCRIPTION "This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory."
+#define PROGRAM_DESCRIPTION                                                                                            \
+	"This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in " \
+	"memory."
 #define PROGRAM_USAGE PROGRAM_NAME " --mode INJECT --name notepad.exe [DLLs Paths]\n"
 
 /// <summary>
@@ -24,7 +26,7 @@ void DisplayHelp(void* argtable)
 /// <param name="argc">CLI arg count.</param>
 /// <param name="argv">CLI args.</param>
 /// <returns>Injection return code.</returns>
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
 	// Arguments
 	arg_lit_t* help = arg_litn(NULL, "help", 0, 1, "Display the program help message");
@@ -74,16 +76,14 @@ int main(int argc, const char **argv)
 
 		if (!stricmp(*mode->sval, "INJECT"))
 		{
-			LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue,
-				*files[i].filename, verbose);
+			LPPROCESS_INFORMATION proc = Inject(*name->sval, PIDValue, *files[i].filename, verbose);
 			if (!proc)
 				return 1;
 			FreeProcInfo(proc);
 		}
 		else if (!stricmp(*mode->sval, "EJECT"))
 		{
-			LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue,
-				*files[i].filename, TRUE, verbose);
+			LPPROCESS_INFORMATION proc = Eject(*name->sval, PIDValue, *files[i].filename, TRUE, verbose);
 			if (!proc)
 				return 1;
 			FreeProcInfo(proc);

@@ -3,11 +3,11 @@ GREATEST_MAIN_DEFS();
 
 extern SUITE(Suite_IzInjector);
 
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
-    GREATEST_MAIN_BEGIN();
+	GREATEST_MAIN_BEGIN();
 
-    RUN_SUITE(Suite_IzInjector);
+	RUN_SUITE(Suite_IzInjector);
 
-    GREATEST_MAIN_END();
+	GREATEST_MAIN_END();
 }
