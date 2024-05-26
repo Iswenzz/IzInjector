@@ -1,0 +1,26 @@
+{
+	"version": 7,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 27,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "x86-windows",
+			"generator": "Visual Studio 17 2022",
+			"architecture": "Win32",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": ".vcpkg/windows.cmake"
+			}
+		},
+		{
+			"name": "x64-windows",
+			"generator": "Visual Studio 17 2022",
+			"architecture": "x64",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": ".vcpkg/windows.cmake"
+			}
+		}
+	]
+}
