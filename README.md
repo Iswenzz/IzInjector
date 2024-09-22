@@ -1,6 +1,6 @@
 # IzInjector
 
-[![Checks](https://img.shields.io/github/checks-status/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
+[![Checks](https://img.shields.io/github/check-runs/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/Iswenzz/IzInjector?label=codefactor&logo=codefactor)](https://www.codefactor.io/repository/github/iswenzz/izinjector)
 [![CodeCov](https://img.shields.io/codecov/c/github/Iswenzz/IzInjector?label=codecov&logo=codecov)](https://codecov.io/gh/Iswenzz/IzInjector)
 [![License](https://img.shields.io/github/license/Iswenzz/IzInjector?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/IzInjector/blob/master/LICENSE)
