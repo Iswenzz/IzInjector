@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(IzInjector VERSION 1.0.3 LANGUAGES C)
+project(IzInjector VERSION 1.0.4 LANGUAGES C)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
