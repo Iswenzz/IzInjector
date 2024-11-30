@@ -6,18 +6,29 @@
 #include <stdio.h>
 
 /// <summary>
-/// Print a message.
+/// Print message.
 /// </summary>
-#define IZ_PRINT(...) printf("[INFO] "__VA_ARGS__)
+#define IZ_PRINT(message) printf(message "\n")
+
+/// <summary>
+/// Print formatted message.
+/// </summary>
+#define IZ_PRINTF(message, ...) printf(message "\n", __VA_ARGS__)
+
+/// <summary>
+/// Print info message.
+/// </summary>
+#define IZ_INFO(message, ...) IZ_PRINTF("[INFO] " message, __VA_ARGS__)
 
 /// <summary>
 /// Assert message.
 /// </summary>
-#define IZ_ASSERT(condition, ...) \
-	if (!condition)            \
-	{                          \
-		IZ_PRINT(__VA_ARGS__);    \
-		assert(condition);     \
+#define IZ_ASSERT(condition, ...)         \
+	if (!condition)                       \
+	{                                     \
+		IZ_PRINTF("[ERROR] "__VA_ARGS__); \
+		assert(condition);                \
+		exit(1);                          \
 	}
 
 /// <summary>

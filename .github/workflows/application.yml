@@ -24,7 +24,7 @@ jobs:
             - name: Build
               run: |
                   mkdir build && cd build
-                  cmake .. --preset x64-windows -DBUILD_TESTING=True
+                  cmake .. --preset x64-windows -DBUILD_TESTING=True -DBUILD_CLI=True
                   cmake --build .
 
             - name: Artifact

@@ -14,7 +14,6 @@ Usage: IzInjector --mode INJECT --name notepad.exe [DLLs Paths]
 
         --help                    Display the program help message
         --version                 Display the program version
-        -v, --verbose             Log the command process
         -m, --mode=               DLL Injection mode [INJECT or EJECT]
         -n, --name=               The target process name [notepad.exe]
         -p, --pid=                The target process ID
