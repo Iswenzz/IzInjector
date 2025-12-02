@@ -7,10 +7,6 @@
 #define PROGRAM_VERSION "1.0.5"
 #define PROGRAM_USAGE PROGRAM_NAME " --mode INJECT --name notepad.exe [DLLs Paths]\n"
 
-/// <summary>
-/// Display the help message.
-/// </summary>
-/// <param name="argtable">CLI arg table.</param>
 void DisplayHelp(void* argtable)
 {
 	IZ_PRINTF("\nUsage: %s", PROGRAM_USAGE);
@@ -18,12 +14,6 @@ void DisplayHelp(void* argtable)
 	IZ_PRINT("");
 }
 
-/// <summary>
-/// Entry point of the program.
-/// </summary>
-/// <param name="argc">CLI arg count.</param>
-/// <param name="argv">CLI args.</param>
-/// <returns></returns>
 int main(int argc, const char** argv)
 {
 	arg_lit_t* help = arg_litn(NULL, "help", 0, 1, "Display the program help message");
