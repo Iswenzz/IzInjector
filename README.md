@@ -1,8 +1,5 @@
 # IzInjector
 
-[![Checks](https://img.shields.io/github/check-runs/Iswenzz/IzInjector/master?logo=github)](https://github.com/Iswenzz/IzInjector/actions)
-[![License](https://img.shields.io/github/license/Iswenzz/IzInjector?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/IzInjector/blob/master/LICENSE)
-
 This application is intended to allow users to inject a Dynamic-Link Library (DLL) file into another process in memory. Note that this is meant to be used for educational purposes only, and I do not condone its use for cheating of any kind.
 
 ## Command Line Interface
